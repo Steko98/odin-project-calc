@@ -1,69 +1,81 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #000000;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000;
 }
 
-.calc{
-    height: 70%;
-    width: 30%;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 24px;
-    background-color: #273338;
-    border-radius: 25px;
+.calc {
+  height: 70%;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 24px;
+  background-color: #273338;
+  border-radius: 25px;
 }
 
 .display {
-    height: 100px;
-    width: 100%;
-    background-color: #EEEEEE;
-    flex-shrink: 0;
-    border-radius: 25px;
+  height: 100px;
+  width: 100%;
+  background-color: #eeeeee;
+  flex-shrink: 0;
+  border-radius: 25px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 72px;
+  padding-right: 24px;
 }
 
 .buttons {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-wrap: wrap;
+  width: 95%;
+  height: 95%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
-.button{
-    width: 25%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-        color: #000000;
-    font-size: 32px;
-    border-radius: 25px;
-    transition: 0.2s ease;
+button {
+  width: 25%;
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000000;
+  font-size: 32px;
+  border-radius: 25px;
+  transition: 0.2s ease;
+  border: none;
 }
 
-.button:hover{
-    transform: scale(0.95);
+button:hover {
+  transform: scale(0.95);
+  cursor: pointer;
 }
 
 .c,
-.ce{
-    width: 50%;
-    background-color: #CB2957;
+#ce {
+  width: 50%;
+  background-color: #cb2957;
 }
 
-.num{
-    background-color: #DDDDDD;
+.num {
+  background-color: #dddddd;
 }
 
-.oper{
-    background-color: #ACBFA4;
+.oper {
+  background-color: #acbfa4;
 }
