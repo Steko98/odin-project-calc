@@ -16,21 +16,19 @@ numbers.forEach((num) => {
     if (!firstNum) {
       firstNum = num.value;
       display.textContent = firstNum;
-      console.log(firstNum);
     } else if (firstNum && !operator) {
       placeholder = firstNum.toString();
       placeholder += `${num.value}`;
       firstNum = +placeholder;
       display.textContent = firstNum;
-      console.log(firstNum);
     } else if (operator && !secondNum) {
       secondNum = num.value;
-      display.textContent = `${firstNum} + ${operator} + ${secondNum}`;
+      display.textContent = `${firstNum} ${operator} ${secondNum}`;
     } else {
       placeholder = secondNum.toString();
       placeholder += `${num.value}`;
       secondNum = +placeholder;
-      display.textContent = `${firstNum} + ${operator} + ${secondNum}`;
+      display.textContent = `${firstNum} ${operator} ${secondNum}`;
     }
     return;
   });
@@ -40,26 +38,111 @@ function clearAll() {
   firstNum = null;
   operator = null;
   secondNum = null;
-  display.textContent = "";
 }
 
 ceBtn.addEventListener("click", () => {
+  display.textContent = "";
   clearAll();
 });
 
-// tipka broj - if (!firstNum) {
-//     first nume je button value
-// }, ako first num ima onda druga znamenka broja
-// , ako ima i firstNum i operator onda ide u second num.
+function add(a, b) {
+  result = Number(a) + Number(b);
+  display.textContent = result;
+  return;
+}
+function subtract(a, b) {
+  result = a - b;
+  display.textContent = result;
+  return;
+}
+function multiply(a, b) {
+  result = a * b;
+  display.textContent = result;
+  return;
+}
+function divide(a, b) {
+  result = a / b;
+  display.textContent = result;
+  return;
+}
 
-// funkcija evaluate - uzima first num secondNum i operator i vraca vrijednost
+function equals(num1, operator, num2) {
+  if (!firstNum || !secondNum) {
+    return;
+  }
+  switch (operator) {
+    case "+":
+      add(num1, num2);
+      // clearAll();
+      break;
+    case "-":
+      subtract(num1, num2);
+      // clearAll();
+      break;
+    case "*":
+      multiply(num1, num2);
+      // clearAll();
+      break;
+    case "/":
+      divide(num1, num2);
+      // clearAll();
+      break;
+    default:
+      break;
+  }
+}
 
-// CE briše sve
+const equalBtn = document.getElementById("equal");
+equalBtn.addEventListener("click", () => {
+  equals(firstNum, operator, secondNum);
+  clearAll();
+});
+
+const operatorBtns = document.querySelectorAll("button.oper");
+operatorBtns.forEach((oper) => {
+  oper.addEventListener("click", () => {
+    if (!firstNum) {
+      return;
+    } else if (!secondNum) {
+      operator = oper.value;
+      display.textContent = `${firstNum} ${oper.value}`;
+      return;
+    } else {
+      equals(firstNum, operator, secondNum);
+      switch (oper.value) {
+        case "+":
+          display.textContent += `+`;
+          clearAll();
+          firstNum = Number(result);
+          operator = "+";
+          break;
+        case "-":
+          display.textContent += `-`;
+          clearAll();
+          firstNum = Number(result);
+          operator = "-";
+          break;
+        case "*":
+          display.textContent += `*`;
+          clearAll();
+          firstNum = Number(result);
+          operator = "*";
+          break;
+        case "/":
+          display.textContent += `/`;
+          clearAll();
+          firstNum = Number(result);
+          operator = "/";
+          break;
+        default:
+          break;
+      }
+    }
+  });
+});
+
 //C briše second num, operator pa first num, ili ako po jedan char.
 
 //točka ., ako već ima broj stavlja decimalu, može samo jednu po varijabli (first ili secondNum)
 
-// operatori - ako već postoji operator i dva broja, onda riješava operaciju i dodaje operator na rezultat, ako ne postoji onda samo postavalja operator
-// ako firstNum ne postoji, ne rade niđta, osim minusa koja ce firstNum pretvorit u negativan
-
-// = riješava operaciju
+// ako firstNum ne postoji, ne rade nista, osim minusa koja ce firstNum pretvorit u negativan

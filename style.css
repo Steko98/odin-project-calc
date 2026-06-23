@@ -79,3 +79,8 @@ button:hover {
 .oper {
   background-color: #acbfa4;
 }
+
+#decimal,
+#equal {
+  background-color: #acbfa4;
+}
