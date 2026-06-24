@@ -1,3 +1,5 @@
+//Variables and DOM elements:
+
 let firstNum;
 let secondNum;
 let operator;
@@ -7,6 +9,15 @@ let result;
 const numbers = document.querySelectorAll("button.num");
 const display = document.getElementById("display");
 const ceBtn = document.getElementById("ce");
+const equalBtn = document.getElementById("equal");
+const operatorBtns = document.querySelectorAll("button.oper");
+
+//number buttons functionality:
+//1. checks if the first number (firstNum) is within the limits, if it isn't - the buttons do nothing
+//2. if firstNum doesn't exist; is sets it to the number button value; updates the display to show the firstNum
+//3. if firstNum does exists, but the operator isn't set, it adds the number button value as the next digit of the firstNum; updates the display to show the firstNum
+//4. if the both firstNum and the operator are set, but the secondNum doesn't exist, sets to first digit of the secondNum to the number button value; updates the display to show the firstNum, operator and the second num
+//5. if secondNum already exists, number button sets the nest digit of the secondNum (if the secondNum is within limits); updates the display to show the firstNum, operator and the secondNum
 
 numbers.forEach((num) => {
   num.addEventListener("click", () => {
@@ -25,6 +36,9 @@ numbers.forEach((num) => {
       secondNum = num.value;
       display.textContent = `${firstNum} ${operator} ${secondNum}`;
     } else {
+      if (secondNum >= Number.MAX_SAFE_INTEGER) {
+        return;
+      }
       placeholder = secondNum.toString();
       placeholder += `${num.value}`;
       secondNum = +placeholder;
@@ -34,10 +48,16 @@ numbers.forEach((num) => {
   });
 });
 
+//CE button functionality:
+//1. function clearAll() resets every variable to null
+//2. clearAll() is set as an event for the CE button; also resets the display
+
 function clearAll() {
   firstNum = null;
   operator = null;
   secondNum = null;
+  placeholder = null;
+  result = null;
 }
 
 ceBtn.addEventListener("click", () => {
@@ -45,26 +65,32 @@ ceBtn.addEventListener("click", () => {
   clearAll();
 });
 
+//Math functions:
+//1.Simple add, subtract, multiply and divide functions
+//2. each returns a result variable containing the result of the operation
+//3. rounds the result to 4 decimals
+
 function add(a, b) {
   result = Number(a) + Number(b);
-  display.textContent = result;
   return;
 }
 function subtract(a, b) {
   result = a - b;
-  display.textContent = result;
   return;
 }
 function multiply(a, b) {
-  result = a * b;
-  display.textContent = result;
+  result = (a * b).toFixed(4);
   return;
 }
 function divide(a, b) {
-  result = a / b;
-  display.textContent = result;
+  result = (a / b).toFixed(4);
   return;
 }
+
+//Equality function:
+//1. takes the firstNum, operator, secondNum
+//2. if any of two numbers doesn't exist, it does nothing
+//3. if both numbers are present, it activates the math function based on the operator with a switch statement
 
 function equals(num1, operator, num2) {
   if (!firstNum || !secondNum) {
@@ -73,32 +99,46 @@ function equals(num1, operator, num2) {
   switch (operator) {
     case "+":
       add(num1, num2);
-      // clearAll();
       break;
     case "-":
       subtract(num1, num2);
-      // clearAll();
       break;
     case "*":
       multiply(num1, num2);
-      // clearAll();
       break;
     case "/":
       divide(num1, num2);
-      // clearAll();
       break;
     default:
       break;
   }
 }
 
-const equalBtn = document.getElementById("equal");
+//Equals button
+//1. calls the equality function
+//2. sets the result value to the display
+//3. gives firstNum the result value to allow further operations
+//4. clears all variables but the firstNum
+
+
 equalBtn.addEventListener("click", () => {
   equals(firstNum, operator, secondNum);
-  clearAll();
+  display.textContent = result;
+  firstNum = Number(result);
+  secondNum = null;
+  operator = null;
+  result = null;
+  placeholder = null;
 });
 
-const operatorBtns = document.querySelectorAll("button.oper");
+//Operator buttons (+,-,*,/)
+//1. adds functionality to each operator button
+//2. checks if the firstNum exists, if not, the operator buttons do nothing (exception for the - operator needs to be added to allow input of negative numbers)
+//3. if the secondNum doesn't exists, set the operator button value to operator variable; add the operator to the display; allows overwriting the operator variable
+//4. if the secondNum exists, the operator buttons call the equals() function (which based on the operator calls a math function)
+//5. gives firstNum the result value to allow further operations, clears all other variables and and sets the operator variable to the operator button value
+//6. shows the result on display and adds the operator to it
+
 operatorBtns.forEach((oper) => {
   oper.addEventListener("click", () => {
     if (!firstNum) {
@@ -109,29 +149,26 @@ operatorBtns.forEach((oper) => {
       return;
     } else {
       equals(firstNum, operator, secondNum);
+      display.textContent = result;
+      firstNum = Number(result);
+      secondNum = null;
+      result = null;
+      placeholder = null;
       switch (oper.value) {
         case "+":
           display.textContent += `+`;
-          clearAll();
-          firstNum = Number(result);
           operator = "+";
           break;
         case "-":
           display.textContent += `-`;
-          clearAll();
-          firstNum = Number(result);
           operator = "-";
           break;
         case "*":
           display.textContent += `*`;
-          clearAll();
-          firstNum = Number(result);
           operator = "*";
           break;
         case "/":
           display.textContent += `/`;
-          clearAll();
-          firstNum = Number(result);
           operator = "/";
           break;
         default:
@@ -144,5 +181,4 @@ operatorBtns.forEach((oper) => {
 //C briše second num, operator pa first num, ili ako po jedan char.
 
 //točka ., ako već ima broj stavlja decimalu, može samo jednu po varijabli (first ili secondNum)
-
 // ako firstNum ne postoji, ne rade nista, osim minusa koja ce firstNum pretvorit u negativan
