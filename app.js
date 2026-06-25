@@ -21,13 +21,13 @@ const operatorBtns = document.querySelectorAll("button.oper");
 
 numbers.forEach((num) => {
   num.addEventListener("click", () => {
-    if (firstNum >= Number.MAX_SAFE_INTEGER) {
-      return;
-    }
     if (!firstNum) {
       firstNum = num.value;
       display.textContent = firstNum;
     } else if (firstNum && !operator) {
+      if (firstNum >= Number.MAX_SAFE_INTEGER) {
+        return;
+      }
       placeholder = firstNum.toString();
       placeholder += `${num.value}`;
       firstNum = +placeholder;
@@ -79,7 +79,7 @@ function subtract(a, b) {
   return;
 }
 function multiply(a, b) {
-  result = Math.round((a * b) * 10000) / 10000;
+  result = Math.round(a * b * 10000) / 10000;
   return;
 }
 function divide(a, b) {
@@ -132,7 +132,7 @@ equalBtn.addEventListener("click", () => {
 //Operator buttons (+,-,*,/)
 //1. adds functionality to each operator button
 //2. checks if the firstNum or result variable, if not, the operator buttons do nothing (exception for the - operator needs to be added to allow input of negative numbers)
-//3. if there is a previous result, but no firstNum variable, firstNum is set to equal result, allowing further operations 
+//3. if there is a previous result, but no firstNum variable, firstNum is set to equal result, allowing further operations
 //4. if the secondNum doesn't exists, set the operator button value to operator variable; add the operator to the display; allows overwriting the operator variable
 //5. if the secondNum exists, the operator buttons call the equals() function (which based on the operator calls a math function)
 //6. gives firstNum the result value to allow further operations, clears all other variables and and sets the operator variable to the operator button value
@@ -142,12 +142,11 @@ operatorBtns.forEach((oper) => {
   oper.addEventListener("click", () => {
     if (!firstNum && !result) {
       return;
-    } else if (!firstNum && result){
+    } else if (!firstNum && result) {
       firstNum = result;
       operator = oper.value;
       display.textContent = `${firstNum} ${oper.value}`;
-    }
-     else if (!secondNum) {
+    } else if (!secondNum) {
       operator = oper.value;
       display.textContent = `${firstNum} ${oper.value}`;
       return;

@@ -14,7 +14,7 @@
 }
 
 .calc {
-  height: 70%;
+  height: fit-content;
   width: 30%;
   display: flex;
   flex-direction: column;
@@ -22,20 +22,21 @@
   align-items: center;
   gap: 12px;
   padding: 24px;
-  background-color: #273338;
+  border: 8px solid #bbe0ef;
   border-radius: 25px;
 }
 
 .display {
   height: 100px;
   width: 100%;
-  background-color: #eeeeee;
+  border: 4px solid #bbe0ef;
+  color: white;
   flex-shrink: 0;
   border-radius: 25px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  font-size: 72px;
+  font-size: 36px;
   padding-right: 24px;
 }
 
@@ -46,19 +47,25 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  gap: 8px;
 }
 
 button {
-  width: 25%;
+  width: 23%;
   height: 20%;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #000000;
   font-size: 32px;
   border-radius: 25px;
   transition: 0.2s ease;
-  border: none;
+  padding: 24px;
+  background-color: #000000;
+  transition: 0.2s ease;
+}
+
+button:hover {
+  transform: scale(0.95);
 }
 
 button:hover {
@@ -68,19 +75,23 @@ button:hover {
 
 .c,
 #ce {
-  width: 50%;
-  background-color: #cb2957;
+  width: 48%;
+  border: 4px solid #f16d34;
+  color: #f16d34;
 }
 
 .num {
-  background-color: #dddddd;
+  color: #bbe0ef;
+  border: 4px solid #bbe0ef;
 }
 
 .oper {
-  background-color: #acbfa4;
+  color: #ff986a;
+  border: 4px solid #ff986a;
 }
 
 #decimal,
 #equal {
-  background-color: #acbfa4;
+  border: 4px solid #f16d34;
+  color: #f16d34;
 }
