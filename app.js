@@ -27,12 +27,12 @@ numbers.forEach((num) => {
         if (placeholder.includes(".")) {
           placeholder += `${num.value}`;
           firstNum = Number(placeholder);
-          display.textContent = `${firstNum}`;
+          display.textContent = `${placeholder}`;
         }
       } else {
         firstNum = num.value;
         placeholder = firstNum.toString();
-        display.textContent = firstNum;
+        display.textContent = placeholder;
       }
     } else if (firstNum && !operator) {
       if (firstNum >= Number.MAX_SAFE_INTEGER) {
@@ -45,19 +45,19 @@ numbers.forEach((num) => {
         placeholder = firstNum.toString();
         placeholder += `${num.value}`;
         firstNum = +placeholder;
-        display.textContent = firstNum;
+        display.textContent = placeholder;
       }
     } else if (operator && !secondNum) {
       if (placeholder) {
         if (placeholder.includes(".")) {
           placeholder += `${num.value}`;
           secondNum = +placeholder;
-          display.textContent = `${firstNum} ${operator} ${secondNum}`;
+          display.textContent = `${firstNum} ${operator} ${placeholder}`;
         }
       } else {
         secondNum = num.value;
         placeholder = secondNum.toString()
-        display.textContent = `${firstNum} ${operator} ${secondNum}`;
+        display.textContent = `${firstNum} ${operator} ${placeholder}`;
       }
     } else {
       if (secondNum >= Number.MAX_SAFE_INTEGER) {
@@ -65,12 +65,12 @@ numbers.forEach((num) => {
       } else if (placeholder.includes(".")) {
         placeholder += `${num.value}`;
         secondNum = +placeholder;
-        display.textContent = `${firstNum} ${operator} ${secondNum}`;
+        display.textContent = `${firstNum} ${operator} ${placeholder}`;
       } else {
         placeholder = secondNum.toString();
         placeholder += `${num.value}`;
         secondNum = +placeholder;
-        display.textContent = `${firstNum} ${operator} ${secondNum}`;
+        display.textContent = `${firstNum} ${operator} ${placeholder}`;
       }
     }
     return;
@@ -241,7 +241,6 @@ decimalBtn.addEventListener("click", () => {
   addDecimal();
 });
 
-//C briše second num, operator pa first num, ili ako po jedan char.
 
 //točka ., ako već ima broj stavlja decimalu, može samo jednu po varijabli (first ili secondNum)
 // ako firstNum ne postoji, ne rade nista, osim minusa koja ce firstNum pretvorit u negativan
