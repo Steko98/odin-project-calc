@@ -11,6 +11,7 @@ const display = document.getElementById("display");
 const ceBtn = document.getElementById("ce");
 const equalBtn = document.getElementById("equal");
 const operatorBtns = document.querySelectorAll("button.oper");
+const decimalBtn = document.getElementById("decimal");
 
 //number buttons functionality:
 //1. checks if the first number (firstNum) is within the limits, if it isn't - the buttons do nothing
@@ -22,27 +23,52 @@ const operatorBtns = document.querySelectorAll("button.oper");
 numbers.forEach((num) => {
   num.addEventListener("click", () => {
     if (!firstNum) {
-      firstNum = num.value;
-      display.textContent = firstNum;
+      if (placeholder) {
+        if (placeholder.includes(".")) {
+          placeholder += `${num.value}`;
+          firstNum = Number(placeholder);
+          display.textContent = `${firstNum}`;
+        }
+      } else {
+        firstNum = num.value;
+        placeholder = firstNum.toString();
+        display.textContent = firstNum;
+      }
     } else if (firstNum && !operator) {
       if (firstNum >= Number.MAX_SAFE_INTEGER) {
         return;
+      } else if (placeholder.includes(".")) {
+        placeholder += `${num.value}`;
+        firstNum = Number(placeholder);
+        display.textContent = `${placeholder}`;
+      } else {
+        placeholder = firstNum.toString();
+        placeholder += `${num.value}`;
+        firstNum = +placeholder;
+        display.textContent = firstNum;
       }
-      placeholder = firstNum.toString();
-      placeholder += `${num.value}`;
-      firstNum = +placeholder;
-      display.textContent = firstNum;
     } else if (operator && !secondNum) {
-      secondNum = num.value;
-      display.textContent = `${firstNum} ${operator} ${secondNum}`;
+      if (placeholder.includes(".")) {
+        placeholder += `${num.value}`;
+        secondNum = +placeholder;
+        display.textContent = `${firstNum} ${operator} ${secondNum}`;
+      } else {
+        secondNum = num.value;
+        display.textContent = `${firstNum} ${operator} ${secondNum}`;
+      }
     } else {
       if (secondNum >= Number.MAX_SAFE_INTEGER) {
         return;
+      } else if (placeholder.includes(".")) {
+        placeholder += `${num.value}`;
+        secondNum = +placeholder;
+        display.textContent = `${firstNum} ${operator} ${secondNum}`;
+      } else {
+        placeholder = secondNum.toString();
+        placeholder += `${num.value}`;
+        secondNum = +placeholder;
+        display.textContent = `${firstNum} ${operator} ${secondNum}`;
       }
-      placeholder = secondNum.toString();
-      placeholder += `${num.value}`;
-      secondNum = +placeholder;
-      display.textContent = `${firstNum} ${operator} ${secondNum}`;
     }
     return;
   });
@@ -175,9 +201,39 @@ operatorBtns.forEach((oper) => {
           break;
         default:
           break;
+          condition;
       }
     }
   });
+});
+
+//Decimal separator
+
+function addDecimal() {
+  if (secondNum) {
+    if (placeholder.includes(".")) {
+      return;
+    }
+    display.textContent += `.`;
+    placeholder = `${secondNum.toString()}.`;
+  } else if (operator && !secondNum) {
+    placeholder = "0.";
+    display.textContent = `${firstNum} ${operator} ${placeholder}`;
+  } else if (firstNum && !operator) {
+    if (placeholder.includes(".")) {
+      return;
+    }
+    display.textContent += ".";
+    placeholder += `.`;
+    display.textContent = `${placeholder}`;
+  } else if (!firstNum) {
+    placeholder = "0.";
+    display.textContent = `${placeholder}`;
+  }
+}
+
+decimalBtn.addEventListener("click", () => {
+  addDecimal();
 });
 
 //C briše second num, operator pa first num, ili ako po jedan char.
