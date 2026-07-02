@@ -48,12 +48,15 @@ numbers.forEach((num) => {
         display.textContent = firstNum;
       }
     } else if (operator && !secondNum) {
-      if (placeholder.includes(".")) {
-        placeholder += `${num.value}`;
-        secondNum = +placeholder;
-        display.textContent = `${firstNum} ${operator} ${secondNum}`;
+      if (placeholder) {
+        if (placeholder.includes(".")) {
+          placeholder += `${num.value}`;
+          secondNum = +placeholder;
+          display.textContent = `${firstNum} ${operator} ${secondNum}`;
+        }
       } else {
         secondNum = num.value;
+        placeholder = secondNum.toString()
         display.textContent = `${firstNum} ${operator} ${secondNum}`;
       }
     } else {
@@ -119,9 +122,6 @@ function divide(a, b) {
 //3. if both numbers are present, it activates the math function based on the operator with a switch statement
 
 function equals(num1, operator, num2) {
-  if (!firstNum || !secondNum) {
-    return;
-  }
   switch (operator) {
     case "+":
       add(num1, num2);
@@ -147,12 +147,16 @@ function equals(num1, operator, num2) {
 //4. clears all variables but the firstNum
 
 equalBtn.addEventListener("click", () => {
-  equals(firstNum, operator, secondNum);
-  display.textContent = result;
-  firstNum = null;
-  secondNum = null;
-  operator = null;
-  placeholder = null;
+  if (!secondNum) {
+    return;
+  } else {
+    equals(firstNum, operator, secondNum);
+    display.textContent = result;
+    firstNum = null;
+    secondNum = null;
+    operator = null;
+    placeholder = null;
+  }
 });
 
 //Operator buttons (+,-,*,/)
@@ -166,6 +170,7 @@ equalBtn.addEventListener("click", () => {
 
 operatorBtns.forEach((oper) => {
   oper.addEventListener("click", () => {
+    placeholder = null;
     if (!firstNum && !result) {
       return;
     } else if (!firstNum && result) {
